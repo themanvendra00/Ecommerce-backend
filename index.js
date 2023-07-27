@@ -1,6 +1,9 @@
 const express = require("express");
 require("dotenv").config();
 const { connection } = require("./config/db");
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,6 +16,28 @@ const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 
 app.use(express.json());
+
+// API documentation using Swagger
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'E-commerce API',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./routes/*.js'],
+};
+const swaggerSpecs = swaggerJsdoc(options);
+
+// API rate limiter 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+app.use(limiter);
 
 app.get("/", (req, res) => {
   res.send("Hello Triveous Team!");
