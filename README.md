@@ -1,5 +1,7 @@
 # E-Commerce API
 
+Deployed Link: https://amaranth-gorilla-cape.cyclic.app/
+
 The E-Commerce API is a set of RESTful endpoints that support various e-commerce operations such as product and category listing, product details, cart management, and order processing. The API uses MongoDB as the database to manage product/category data, user cart information, and order details. JSON Web Tokens (JWT) are used for user authentication and token management.
 
 ## Table of Contents
